@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Graphics</title>
+    <script src="ellipse.js"></script>
+    <!--<script src="bersenham.js"></script>-->
+</head>
+
+<body>
+
+<canvas id="canvas" style="border: 2px solid; float: right"></canvas>
+<div>
+    <p style="float: left" id="message"></p>
+</div>
+
+
+<script>
+    var c = document.getElementById("canvas");
+    var ctx = c.getContext("2d");
+    c.width = document.documentElement.clientWidth-16;
+    c.height = document.documentElement.clientHeight-66;
+    var moveX, moveY, toX, toY;
+    var ofstX=4,ofstY=8;
+    var imgdata = ctx.getImageData(0,0,c.width,c.height);
+
+    canvas.addEventListener('mousedown', function (e) {
+        moveX = e.clientX-ofstX;
+        moveY = e.clientY-ofstY;
+        canvas.addEventListener('mousemove', draw)
+    });
+    canvas.addEventListener('mouseup', function (e) {
+        canvas.removeEventListener('mousemove', draw);
+        imgdata = ctx.getImageData(0,0,c.width,c.height);
+
+    });
+
+    function draw(e) {
+        var r = 2;
+        toX = e.clientX-ofstX;
+        toY = e.clientY-ofstY;
+        ctx.putImageData(imgdata,0,0);
+        var message = document.getElementById("message");
+        message.innerHTML = 'x_start='+moveX+' y_start='+moveY+ ' x_now='+toX+' y_now='+toY+' 分辨精度='+r+'px';
+        draw_circle(moveX/r, moveY/r, toX/r, toY/r, r);
+        // draw_line(moveX/r, moveY/r, toX/r, toY/r, r);
+
+    }
+
+
+</script>
+
+</body>
+</html>
