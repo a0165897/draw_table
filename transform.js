@@ -24,6 +24,7 @@ function move(){//平移
     }else{//绘制椭圆
         draw_circle(point[0].x/r,point[0].y/r,point[1].x/r,point[1].y/r,thelta,r);
     }
+    imgdata = ctx.getImageData(0,0,c.width,c.height);
 }
 function large(){//缩放
     var tmpx = document.getElementById("movex").value;
@@ -45,6 +46,7 @@ function large(){//缩放
     }else{
         draw_circle(point[0].x/r,point[0].y/r,point[1].x/r,point[1].y/r,thelta,r);
     }
+    imgdata = ctx.getImageData(0,0,c.width,c.height);
 }
 function trans(){//旋转
     var tmpx = document.getElementById("movex").value;
@@ -69,4 +71,5 @@ function trans(){//旋转
         thelta+=Number(tmpx);//椭圆旋转倾斜角
         draw_circle(point[0].x/r,point[0].y/r,point[1].x/r,point[1].y/r,thelta,r);
     }
+    imgdata = ctx.getImageData(0,0,c.width,c.height);
 }

@@ -108,7 +108,7 @@ function drawcircle(e) {
 
 }
 
-function circler(){
+function ellipse(){
     flag_circle = 1;
     point = [{x:-1,y:-1}];
     imgdata = ctx.getImageData(0,0,c.width,c.height);

@@ -34,7 +34,7 @@ function link(e){//每次单击调用
     }
 }
 
-function painter(){
+function poly(){
     remove();
     imgdata = ctx.getImageData(0,0,c.width,c.height);
     point = [{x:-1,y:-1}];

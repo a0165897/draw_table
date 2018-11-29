@@ -8,9 +8,13 @@
     <script src="polygon.js"></script>
     <script src="transform.js"></script>
     <script src="filler.js"></script>
+    <script src="sutherland_hodgman.js"></script>
     <style>
         .painter{
             background: cornsilk;
+        }
+        .cliper{
+            background: cornflowerblue;
         }
         .mover{
             background: darkseagreen;
@@ -25,8 +29,9 @@
     <p style="float: right ;margin:0;" id="message"></p>
     <button type="submit" style="background: lightseagreen" onclick="hint()">使用提示</button>
     <button class="painter" onclick="liner()">绘制线段</button>
-    <button class="painter" onclick="painter()">绘制多边形</button>
-    <button class="painter" onclick="circler()">绘制椭圆形</button>
+    <button class="painter" onclick="poly()">绘制多边形</button>
+    <button class="painter" onclick="ellipse()">绘制椭圆形</button>
+    <button class="cliper" onclick="clip()">窗口裁切</button>
     <input type="text" placeholder="20/1.5/60" id="movex" required>
     <input type="text" placeholder="20/0.5/-" id="movey" required>
     <button class="mover" type="submit" onclick="move()">平移</button>
@@ -48,6 +53,7 @@
     var thelta = 0;
 
     function remove(){
+        canvas.removeEventListener('mousemove', port);
         canvas.removeEventListener('mousedown', downline);
         canvas.removeEventListener('mouseup', upline);
         canvas.removeEventListener('mousedown', downcircle);
