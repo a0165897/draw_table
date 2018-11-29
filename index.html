@@ -4,48 +4,64 @@
     <meta charset="UTF-8">
     <title>Graphics</title>
     <script src="ellipse.js"></script>
-    <!--<script src="bersenham.js"></script>-->
+    <script src="bersenham.js"></script>
+    <script src="polygon.js"></script>
+    <script src="transform.js"></script>
+    <script src="filler.js"></script>
+    <script src="sutherland_hodgman.js"></script>
+    <style>
+        .painter{
+            background: cornsilk;
+        }
+        .cliper{
+            background: cornflowerblue;
+        }
+        .mover{
+            background: darkseagreen;
+        }
+    </style>
 </head>
 
 <body>
 
 <canvas id="canvas" style="border: 2px solid; float: right"></canvas>
 <div>
-    <p style="float: left" id="message"></p>
+    <p style="float: right ;margin:0;" id="message"></p>
+    <button type="submit" style="background: lightseagreen" onclick="hint()">使用提示</button>
+    <button class="painter" onclick="liner()">绘制线段</button>
+    <button class="painter" onclick="poly()">绘制多边形</button>
+    <button class="painter" onclick="ellipse()">绘制椭圆形</button>
+    <button class="cliper" onclick="clip()">窗口裁切</button>
+    <input type="text" placeholder="20/1.5/60" id="movex" required>
+    <input type="text" placeholder="20/0.5/-" id="movey" required>
+    <button class="mover" type="submit" onclick="move()">平移</button>
+    <button class="mover" type="submit" onclick="large()">缩放</button>
+    <button class="mover" type="submit" onclick="trans()">旋转</button>
 </div>
 
 
 <script>
+    var moveX, moveY, toX, toY,ofstX=4,ofstY=8,r=1;
     var c = document.getElementById("canvas");
     var ctx = c.getContext("2d");
     c.width = document.documentElement.clientWidth-16;
     c.height = document.documentElement.clientHeight-66;
-    var moveX, moveY, toX, toY;
-    var ofstX=4,ofstY=8;
     var imgdata = ctx.getImageData(0,0,c.width,c.height);
 
-    canvas.addEventListener('mousedown', function (e) {
-        moveX = e.clientX-ofstX;
-        moveY = e.clientY-ofstY;
-        canvas.addEventListener('mousemove', draw)
-    });
-    canvas.addEventListener('mouseup', function (e) {
-        canvas.removeEventListener('mousemove', draw);
-        imgdata = ctx.getImageData(0,0,c.width,c.height);
+    var point = [{x:-1,y:-1}];
+    var flag_circle=0;
+    var thelta = 0;
 
-    });
-
-    function draw(e) {
-        var r = 2;
-        toX = e.clientX-ofstX;
-        toY = e.clientY-ofstY;
-        ctx.putImageData(imgdata,0,0);
-        var message = document.getElementById("message");
-        message.innerHTML = 'x_start='+moveX+' y_start='+moveY+ ' x_now='+toX+' y_now='+toY+' 分辨精度='+r+'px';
-        draw_circle(moveX/r, moveY/r, toX/r, toY/r, r);
-        // draw_line(moveX/r, moveY/r, toX/r, toY/r, r);
-
+    function remove(){
+        canvas.removeEventListener('mousemove', port);
+        canvas.removeEventListener('mousedown', downline);
+        canvas.removeEventListener('mouseup', upline);
+        canvas.removeEventListener('mousedown', downcircle);
+        canvas.removeEventListener('mouseup', upcircle);
+        canvas.removeEventListener('mouseup', link);
     }
+
+
 
 
 </script>
