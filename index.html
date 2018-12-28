@@ -9,6 +9,8 @@
     <script src="transform.js"></script>
     <script src="filler.js"></script>
     <script src="sutherland_hodgman.js"></script>
+    <script src="bezier_curve.js"></script>
+
     <style>
         .painter{
             background: cornsilk;
@@ -18,6 +20,9 @@
         }
         .mover{
             background: darkseagreen;
+        }
+        .txt{
+            width: 80px;
         }
     </style>
 </head>
@@ -31,22 +36,28 @@
     <button class="painter" onclick="liner()">绘制线段</button>
     <button class="painter" onclick="poly()">绘制多边形</button>
     <button class="painter" onclick="ellipse()">绘制椭圆形</button>
-    <button class="cliper" onclick="clip()">窗口裁切</button>
-    <input type="text" placeholder="20/1.5/60" id="movex" required>
-    <input type="text" placeholder="20/0.5/-" id="movey" required>
+    <input type="text" class="txt" placeholder="控制点(>=3)" id="p" required>
+    <button class="painter" onclick="bcurve()">绘制bezier曲线</button>
+    <!--<button class="painter" onclick="bspline()" >绘制b-spline曲线</button>-->
+    <input type="text" class="txt" placeholder="20/1.5/60" id="movex" required>
+    <input type="text" class="txt" placeholder="20/0.5/-" id="movey" required>
     <button class="mover" type="submit" onclick="move()">平移</button>
     <button class="mover" type="submit" onclick="large()">缩放</button>
     <button class="mover" type="submit" onclick="trans()">旋转</button>
+    <button class="cliper" onclick="clip()">窗口裁切</button>
 </div>
 
 
 <script>
-    var moveX, moveY, toX, toY,ofstX=4,ofstY=8,r=1;
+    var moveX, moveY, toX, toY,ofstX=4,ofstY=8,r=2,flag_lineb = 1;;
     var c = document.getElementById("canvas");
     var ctx = c.getContext("2d");
     c.width = document.documentElement.clientWidth-16;
     c.height = document.documentElement.clientHeight-66;
     var imgdata = ctx.getImageData(0,0,c.width,c.height);
+    var blankdata = ctx.getImageData(0,0,c.width,c.height);
+
+
 
     var point = [{x:-1,y:-1}];
     var flag_circle=0;
@@ -59,6 +70,8 @@
         canvas.removeEventListener('mousedown', downcircle);
         canvas.removeEventListener('mouseup', upcircle);
         canvas.removeEventListener('mouseup', link);
+        canvas.removeEventListener('mouseup', linkb);
+
     }
 
 
